@@ -1,26 +1,42 @@
 export type Player = {
+  avatar: string | undefined;
   id: string;
   name: string;
-  played: number;
-  won: number;
-  drawn: number;
-  lost: number;
-  goalsFor: number;
-  goalsAgainst: number;
-  points: number;
-  avatar: string;
+};
+
+export type Game = {
+  id: string;
+  name: string;
+  slug: string;
 };
 
 export type Division = {
-   id: string;
-  name: string;
-  players: string[];
-  fixtures: string[];
+  id: string;
+  number: number;
+  gameId: string;
+  seasonId: string;
+};
+
+export type DivisionPlayer = {
+  id: string;
+  divisionId: string;
+  playerId: string;
+};
+
+export type Season = {
+  id: string;
+  number: number;
+  gameId: string;
+  createdAt: string;
 };
 
 export type Fixture = {
   id: string;
-  players: [string, string];
-  dateCompleted: Date | null;
-  score: [number, number] | null;
-}
+  divisionId: string;
+  seasonId: string;
+  homeScore: number | null;
+  awayScore: number | null;
+  homePlayer: string;
+  awayPlayer: string;
+  dateCompleted: string | null;
+};
