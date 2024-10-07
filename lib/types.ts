@@ -1,5 +1,5 @@
 export type Player = {
-  avatar: string | undefined;
+  avatar: string;
   id: string;
   name: string;
 };

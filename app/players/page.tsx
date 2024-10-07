@@ -2,8 +2,8 @@ import { supabase } from "@/lib/supabase/server";
 import { Player } from "@/lib/types";
 import { MaxWidth } from "@/components/max-width";
 import { PageHeader } from "../page-header";
-import { PlayerAvatar } from "@/components/player-avatar";
 import { AddPlayerDialog } from "./add-player-dialog";
+import { EditPlayerDialog } from "./edit-player-dialog";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +15,7 @@ const PlayersPage = async () => {
   const { data: players } = await supabase
     .from("players")
     .select()
+    .order("created_at", { ascending: true })
     .returns<Player[]>();
 
   if (!players) {
@@ -30,12 +31,7 @@ const PlayersPage = async () => {
         <div className="py-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {players.map((player) => (
-              <div key={player.id} className="bg-white border rounded-lg p-4">
-                <div className="flex items-center gap-4">
-                  <PlayerAvatar player={player} />
-                  <h2 className="text-lg font-semibold">{player.name}</h2>
-                </div>
-              </div>
+              <EditPlayerDialog player={player} key={player.id} />
             ))}
           </div>
         </div>

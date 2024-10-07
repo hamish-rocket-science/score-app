@@ -15,30 +15,34 @@ import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
 import { useTransition } from "react";
+import { Player } from "@/lib/types";
 import { z } from "zod";
 
 type Props = {
-  onSubmit: (data: NewPlayerSchema) => void;
+  player: Player;
+  onSubmit: (data: Player) => void;
 };
 
-export const newPlayerSchema = z.object({
+export const editPlayerSchema = z.object({
+  id: z.string().min(1),
   name: z.string().min(1, "Enter a name"),
+  avatar: z.string(),
 });
 
-export type NewPlayerSchema = z.infer<typeof newPlayerSchema>;
+export type EditPlayerSchema = z.infer<typeof editPlayerSchema>;
 
-export function AddPlayerForm({ onSubmit }: Props) {
+export function EditPlayerForm({ player, onSubmit }: Props) {
   const [isPending, startTransition] = useTransition();
 
-  const handleSubmit = (data: NewPlayerSchema) => {
+  const handleSubmit = (data: EditPlayerSchema) => {
     startTransition(() => {
       return onSubmit(data);
     });
   };
 
-  const form = useForm<NewPlayerSchema>({
-    resolver: zodResolver(newPlayerSchema),
-    defaultValues: { name: "" },
+  const form = useForm<EditPlayerSchema>({
+    resolver: zodResolver(editPlayerSchema),
+    defaultValues: player,
   });
 
   return (
@@ -52,7 +56,7 @@ export function AddPlayerForm({ onSubmit }: Props) {
               <FormItem className="flex flex-col gap-2">
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="eg. Doug" autoComplete="off" {...field} />
+                  <Input autoComplete="off" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -64,7 +68,7 @@ export function AddPlayerForm({ onSubmit }: Props) {
               Cancel
             </Button>
             <Button type="submit" variant="default" size="xl">
-              {isPending ? "Add player..." : "Add player"}
+              {isPending ? "Saving..." : "Save"}
             </Button>
           </div>
         </div>

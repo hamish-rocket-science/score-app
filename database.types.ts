@@ -199,16 +199,19 @@ export type Database = {
       players: {
         Row: {
           avatar: string | null
+          created_at: string | null
           id: string
           name: string
         }
         Insert: {
           avatar?: string | null
+          created_at?: string | null
           id?: string
           name: string
         }
         Update: {
           avatar?: string | null
+          created_at?: string | null
           id?: string
           name?: string
         }

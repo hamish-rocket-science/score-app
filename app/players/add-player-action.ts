@@ -1,8 +1,9 @@
 "use server";
 
 import { supabase } from "@/lib/supabase/server";
-import { type NewPlayerSchema } from "./schema";
+
 import { type Player } from "@/lib/types";
+import { NewPlayerSchema } from "./add-player-form";
 
 export type AddPlayerActionResponse = {
   success?: boolean;
@@ -14,12 +15,12 @@ export const addPlayerAction = async (
   _: AddPlayerActionResponse,
   newPlayer: NewPlayerSchema
 ): Promise<AddPlayerActionResponse> => {
-  const { data: player, error } = await supabase
+  const { data, error } = await supabase
     .from("players")
     .insert([
       {
         name: newPlayer.name,
-        avatar: `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${newPlayer.name}}`,
+        avatar: `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${newPlayer.name}`,
       },
     ])
     .select(`id, name, avatar`)
@@ -36,5 +37,5 @@ export const addPlayerAction = async (
     };
   }
 
-  return { success: true, message: "Season created", player };
+  return { success: true, message: "Player created", player: data };
 };

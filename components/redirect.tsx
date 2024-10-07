@@ -12,7 +12,7 @@ export const Redirect = ({ to }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace(to as Route);
+    router.replace(to as Route, { scroll: false });
   }, [router, to]);
 
   return (
