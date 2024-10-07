@@ -5,13 +5,11 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "../page-header";
 import { PlayerAvatar } from "@/components/player-avatar";
 
-type Props = Record<string, never>;
-
 export const metadata = {
   title: "Players",
 };
 
-export const PlayersPage = async ({}: Props) => {
+const PlayersPage = async () => {
   const { data: players } = await supabase
     .from("players")
     .select()

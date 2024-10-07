@@ -104,7 +104,7 @@ export type Database = {
           home_player: string
           home_score: number | null
           id: string
-          season_id: string | null
+          season_id: string
         }
         Insert: {
           away_player: string
@@ -114,7 +114,7 @@ export type Database = {
           home_player: string
           home_score?: number | null
           id?: string
-          season_id?: string | null
+          season_id: string
         }
         Update: {
           away_player?: string
@@ -124,7 +124,7 @@ export type Database = {
           home_player?: string
           home_score?: number | null
           id?: string
-          season_id?: string | null
+          season_id?: string
         }
         Relationships: [
           {

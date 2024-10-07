@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase/server";
 import type { Division, Season } from "@/lib/types";
 
 import { PageHeader } from "./page-header";
+import { Route } from "next";
 
 export const metadata = {
   title: "Games",
@@ -70,7 +71,7 @@ export default async function Home() {
               );
 
               return (
-                <Link href={`/games/${game.slug}`} key={game.id}>
+                <Link href={`/games/${game.slug}` as Route} key={game.id}>
                   <Card>
                     <CardHeader>
                       <CardTitle>{game.name}</CardTitle>
