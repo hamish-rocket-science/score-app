@@ -8,7 +8,10 @@ type Props = {
 
 export const PlayerAvatar = ({ player, ...props }: Props) => (
   <Avatar {...props}>
-    <AvatarImage src={player.avatar ?? ""} alt="" />
-    <AvatarFallback>{player.name.substring(0, 1)}</AvatarFallback>
+    {player.avatar ? (
+      <AvatarImage src={player.avatar} alt="" />
+    ) : (
+      <AvatarFallback>{player.name.substring(0, 1)}</AvatarFallback>
+    )}
   </Avatar>
 );

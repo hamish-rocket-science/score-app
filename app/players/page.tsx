@@ -1,9 +1,9 @@
 import { supabase } from "@/lib/supabase/server";
 import { Player } from "@/lib/types";
 import { MaxWidth } from "@/components/max-width";
-import { Button } from "@/components/ui/button";
 import { PageHeader } from "../page-header";
 import { PlayerAvatar } from "@/components/player-avatar";
+import { AddPlayerDialog } from "./add-player-dialog";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +24,7 @@ const PlayersPage = async () => {
   return (
     <main>
       <PageHeader title="Players">
-        <Button>Add Player</Button>
+        <AddPlayerDialog />
       </PageHeader>
       <MaxWidth>
         <div className="py-4">

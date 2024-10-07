@@ -4,10 +4,11 @@ const nextConfig = {
     typedRoutes: true,
   },
   images: {
+    dangerouslyAllowSVG: true,
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "i.pravatar.cc",
+        hostname: "api.dicebear.com",
         port: "",
       },
     ],
