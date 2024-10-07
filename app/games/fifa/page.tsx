@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase/server";
 import { Game, Season, Division } from "@/lib/types";
 
-import { redirect } from "next/navigation";
+import { Redirect } from "@/components/redirect";
 
 export const dynamic = "force-dynamic";
 
@@ -47,5 +47,7 @@ export default async function Page() {
     throw new Error("Division not found");
   }
 
-  redirect(`/games/fifa/season/${season.id}/division/${division.id}`);
+  return (
+    <Redirect to={`/games/fifa/season/${season.id}/division/${division.id}`} />
+  );
 }

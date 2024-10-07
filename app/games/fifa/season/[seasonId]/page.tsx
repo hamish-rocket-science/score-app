@@ -1,7 +1,6 @@
+import { Redirect } from "@/components/redirect";
 import { supabase } from "@/lib/supabase/server";
 import { Game, Season, Division } from "@/lib/types";
-
-import { redirect } from "next/navigation";
 
 type Props = {
   params: Promise<{ seasonId: string }>;
@@ -51,5 +50,7 @@ export default async function Page({ params }: Props) {
     throw new Error("Division not found");
   }
 
-  redirect(`/games/fifa/season/${season.id}/division/${division.id}`);
+  return (
+    <Redirect to={`/games/fifa/season/${season.id}/division/${division.id}`} />
+  );
 }

@@ -68,8 +68,6 @@ export function CreateSeasonForm({ newSeason, allPlayers }: Props) {
       throw new Error(state?.message);
     }
 
-    console.log(state);
-
     if (state.success === true) {
       router.push(`/games/fifa/season/${state.seasonId}`);
     }

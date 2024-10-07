@@ -33,7 +33,6 @@ export default async function Page() {
     .from("seasons")
     .select(`gameId:game_id, number, id, createdAt:created_at`)
     .eq("game_id", FIFA_GAME_ID)
-    .eq("id", "30a12ef5-8449-4747-90ec-acf2cdd2ca71")
     .order("number", { ascending: false })
     .limit(1)
     .returns<Season[]>()
