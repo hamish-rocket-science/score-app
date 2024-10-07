@@ -5,6 +5,8 @@ import { CreateSeasonForm } from "./create-season-form";
 import { supabase } from "@/lib/supabase/server";
 import { Division, Game, Player, Season } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: `FIFA | Start new season`,
 };
@@ -27,7 +29,7 @@ const getPlayersInDivision = async (divisionId: string): Promise<string[]> => {
 const FIFA_GAME_ID = "08d6e716-9ae5-40aa-9bd9-2a7efcb52644";
 
 export default async function Page() {
-  const { data: currentSeason } = await supabase
+  const { data: currentSeason, error: currentSeasonError } = await supabase
     .from("seasons")
     .select(`gameId:game_id, number, id, createdAt:created_at`)
     .eq("game_id", FIFA_GAME_ID)
@@ -38,6 +40,7 @@ export default async function Page() {
     .single();
 
   if (!currentSeason) {
+    console.error(currentSeasonError);
     throw new Error("currentSeason not found");
   }
 

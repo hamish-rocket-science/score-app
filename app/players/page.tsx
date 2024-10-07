@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "../page-header";
 import { PlayerAvatar } from "@/components/player-avatar";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Players",
 };
