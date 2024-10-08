@@ -65,7 +65,7 @@ export function CreateSeasonForm({ newSeason, allPlayers }: Props) {
 
   useEffect(() => {
     if (state.success === false) {
-      throw new Error(state?.message);
+      console.error(state.message);
     }
 
     if (state.success === true) {
@@ -82,7 +82,7 @@ export function CreateSeasonForm({ newSeason, allPlayers }: Props) {
             <div className="flex flex-col gap-4">
               {fields.map((division, divisionIndex) => (
                 <DivisionItem
-                  key={division.number}
+                  key={division.id}
                   division={division}
                   divisionIndex={divisionIndex}
                 />
@@ -91,7 +91,7 @@ export function CreateSeasonForm({ newSeason, allPlayers }: Props) {
           </section>
 
           <Button type="submit" variant="default" size="xl">
-            {isPending ? "Creating season..." : "Finish and start season"}
+            {isPending ? "Creating season..." : "Create season"}
           </Button>
         </div>
       </form>

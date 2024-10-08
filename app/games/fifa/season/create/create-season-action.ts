@@ -11,6 +11,9 @@ type NewFixture = Omit<
   "id" | "homeScore" | "awayScore" | "dateCompleted"
 >;
 
+const deleteSeason = async (seasonId: string) =>
+  await supabase.from("seasons").delete().eq("id", seasonId);
+
 const generateFixtures = (
   players: string[],
   divisionId: string,
@@ -67,9 +70,6 @@ const createSeason = async (number: number, gameId: string) => {
 };
 
 const createDivisions = async (divisions: NewDivision[]) => {
-  console.log("creating divisions");
-  console.log(divisions);
-
   const { data, error } = await supabase
     .from("divisions")
     .insert(
@@ -81,8 +81,6 @@ const createDivisions = async (divisions: NewDivision[]) => {
     )
     .select(`id, number, gameId:game_id, seasonId:season_id`)
     .returns<Division[]>();
-
-  console.log(data);
 
   return { divisions: data, error };
 };
@@ -130,6 +128,30 @@ const getNewDivisions = (formData: NewSeasonFormSchema, seasonId: string) =>
 
     return acc;
   }, []);
+
+const getFixtures = (
+  divisions: Division[],
+  divisionPlayers: DivisionPlayer[],
+  seasonId: string
+): { fixtures?: NewFixture[]; error: string | null } => {
+  let fixtures;
+
+  try {
+    fixtures = divisions.flatMap((division) =>
+      generateFixtures(
+        divisionPlayers
+          .filter((dp) => dp.divisionId === division.id)
+          .map((dp) => dp.playerId),
+        division.id,
+        seasonId
+      )
+    );
+  } catch (error) {
+    return { fixtures, error: (error as Error).message };
+  }
+
+  return { fixtures, error: null };
+};
 
 const getNewDivisionPlayers = (
   formData: NewSeasonFormSchema,
@@ -179,6 +201,7 @@ export const createSeasonAction = async (
 
   if (!divisions) {
     console.error(divisionsError);
+    await deleteSeason(season.id);
     return { success: false, message: "Error creating divisions" };
   }
 
@@ -187,23 +210,34 @@ export const createSeasonAction = async (
 
   if (!divisionPlayers) {
     console.error(divisionPlayersError);
+    await deleteSeason(season.id);
     return { success: false, message: "Error creating division players" };
   }
 
-  const newFixtures = divisions.flatMap((division) => {
-    const players = divisionPlayers
-      .filter((dp) => dp.divisionId === division.id)
-      .map((dp) => dp.playerId);
+  const { fixtures: newFixtures, error: newFixturesError } = getFixtures(
+    divisions,
+    divisionPlayers,
+    season.id
+  );
 
-    const fixtures = generateFixtures(players, division.id, season.id);
-    return fixtures;
-  });
+  if (!newFixtures) {
+    console.error(newFixturesError);
+    await deleteSeason(season.id);
+    return {
+      success: false,
+      message: "Error creating fixtures: " + newFixturesError,
+    };
+  }
 
   const { fixtures, error: fixturesError } = await createFixtures(newFixtures);
 
   if (!fixtures) {
     console.error(fixturesError);
-    return { success: false, message: "Error creating fixtures" };
+    await deleteSeason(season.id);
+    return {
+      success: false,
+      message: "Error creating fixtures: " + fixturesError,
+    };
   }
 
   return { success: true, message: "Season created", seasonId: season.id };
