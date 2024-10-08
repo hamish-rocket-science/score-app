@@ -10,12 +10,6 @@ export function groupFixturesIntoRounds(fixtures: Fixture[]): Fixture[][] {
 
   const totalPlayers = playerSet.size;
 
-  if (totalPlayers % 2 !== 0) {
-    throw new Error(
-      "Total number of players must be even to form proper rounds."
-    );
-  }
-
   const fixturesPerRound = totalPlayers / 2;
   const rounds: Fixture[][] = [];
   const usedFixtures = new Set<Fixture>();
@@ -44,11 +38,6 @@ export function groupFixturesIntoRounds(fixtures: Fixture[]): Fixture[][] {
           }
         }
       }
-    }
-
-    // If we couldn't complete the round, break the loop
-    if (currentRound.length < fixturesPerRound) {
-      break;
     }
 
     rounds.push(currentRound);
