@@ -44,7 +44,7 @@ export function CreateSeasonForm({ newSeason, allPlayers }: Props) {
     },
   });
 
-  const { fields, remove } = useFieldArray({
+  const { fields } = useFieldArray({
     name: "divisions",
     control: form.control,
   });
@@ -73,18 +73,6 @@ export function CreateSeasonForm({ newSeason, allPlayers }: Props) {
     }
   }, [router, state]);
 
-  function handleDeleteDivision(divisionNumber: number) {
-    const index = fields.findIndex(
-      (division) => division.number === divisionNumber
-    );
-
-    if (index === -1) {
-      throw new Error("Division not found");
-    }
-
-    remove(index);
-  }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -97,7 +85,6 @@ export function CreateSeasonForm({ newSeason, allPlayers }: Props) {
                   key={division.number}
                   division={division}
                   divisionIndex={divisionIndex}
-                  onDeleteDivision={handleDeleteDivision}
                 />
               ))}
             </div>
