@@ -8,7 +8,7 @@ import { LeagueTable, PlayerData } from "./league-table";
 import { fetchGameData } from "./fetch-game-data";
 import { calcTableData } from "./calc-table-data";
 import { Fixtures } from "./fixtures";
-import { updateScore } from "./update-score";
+import { updateScoreAction } from "./update-score-action";
 import { DivisionNav } from "./division-nav";
 import { PageHeader } from "@/app/page-header";
 import { Button } from "@/components/ui/button";
@@ -119,7 +119,6 @@ export default async function Page({ params }: Props) {
         <MaxWidth>
           <div className="flex gap-4 flex-col">
             <DivisionNav seasonId={currentSeason.id} divisionId={divisionId} />
-
             <div className="flex flex-col gap-8" key={division.id}>
               <section className="flex flex-col gap-2">
                 <h2 className="font-bold text-2xl">
@@ -132,7 +131,7 @@ export default async function Page({ params }: Props) {
                 <Fixtures
                   fixtures={fixtures}
                   players={players}
-                  onScoreUpdate={updateScore}
+                  onScoreUpdate={updateScoreAction}
                   tableData={tableData}
                 />
               </section>

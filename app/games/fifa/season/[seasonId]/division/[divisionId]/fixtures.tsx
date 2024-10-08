@@ -58,7 +58,7 @@ const Fixture = ({
     <Card key={fixture.id}>
       <CardContent className="p-4 sm:p-6 flex justify-center items-center">
         <PlayerScore
-          fieldName={`${fixture.id}-${homePlayer}`}
+          fieldName={`${fixture.id}-${homePlayer.id}`}
           player={homePlayer}
           score={fixture.homeScore}
           venue="home"
@@ -70,7 +70,7 @@ const Fixture = ({
           {fixture.dateCompleted ? "FT" : "v"}
         </div>
         <PlayerScore
-          fieldName={`${fixture.id}-${awayPlayer}`}
+          fieldName={`${fixture.id}-${awayPlayer.id}`}
           player={awayPlayer}
           score={fixture.awayScore}
           venue="away"

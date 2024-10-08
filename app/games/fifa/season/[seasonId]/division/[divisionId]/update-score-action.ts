@@ -4,19 +4,24 @@ import { Tables } from "@/database.types";
 import { supabase } from "@/lib/supabase/server";
 import { Fixture } from "@/lib/types";
 
-export const updateScore = async (
+export const updateScoreAction = async (
   fixture: Fixture,
   playerId: string,
   score: number
 ) => {
   const column = fixture.homePlayer === playerId ? "home_score" : "away_score";
   const update: Partial<Tables<"fixtures">> = { [column]: score };
-
   const dateNow: string = new Date().toISOString();
 
-  if (column === "home_score" && fixture.awayScore) {
-    update["date_completed"] = dateNow;
-  } else if (column === "away_score" && fixture.homeScore) {
+  if (
+    score >= 0 &&
+    ((column === "home_score" &&
+      fixture.awayScore !== null &&
+      fixture.awayScore >= 0) ||
+      (column === "away_score" &&
+        fixture.homeScore !== null &&
+        fixture.homeScore >= 0))
+  ) {
     update["date_completed"] = dateNow;
   } else {
     update["date_completed"] = null;
